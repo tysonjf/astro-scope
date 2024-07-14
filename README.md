@@ -1,47 +1,66 @@
-# Astro Starter Kit: Minimal
+````markdown
+# Astro Scope Selector
 
-```sh
-npm create astro@latest -- --template minimal
+Astro Scope is a utility package for Astro.js projects that provides a wrapper component for scoping elements and a function for querying scoped elements.
+
+## Installation
+
+You can install this package directly from GitHub:
+
+```bash
+pnpm add github:tysonjf/astro-scope
+```
+````
+
+## Usage
+
+### Scope Component
+
+The `Scope` component allows you to wrap elements without affecting the layout, making it easy to scope query selectors.
+
+```astro
+---
+import { Scope } from "astro-scope";
+---
+
+<Scope data-scope="63c8421b-c081-48bf-97e3-3c565049a323">
+  <h1>Hello, Astro!</h1>
+  <p>This content is wrapped but the wrapper doesn't affect layout.</p>
+  <button>Click me</button>
+</Scope>
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+You can not add custom styles to the custom Scope component.
+By default it has display: contents, so it doesn't affect the layout of the wrapped elements.
+If you want to add custom styles, you need to override the display property:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```astro
+<Scope
+  style="display: block; color: red;"
+  data-scope="63c8421b-c081-48bf-97e3-3c565049a323"
+>
+  <p>This text will be red, but the wrapper still has display: contents</p>
+</Scope>
+<Scope
+  style={{ display: "block", color: "red" }}
+  data-scope="63c8421b-c081-48bf-97e3-3c565049a323"
+>
+  <p>This text will be red, but the wrapper still has display: contents</p>
+</Scope>
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Select Function
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+The `Select` function provides an easy way to select the scoping element and query for child elements.
 
-Any static assets, like images, can be placed in the `public/` directory.
+```typescript
+import { Select } from "astro-scope";
 
-## 🧞 Commands
+const scope = Select("63c8421b-c081-48bf-97e3-3c565049a323");
 
-All commands are run from the root of the project, from a terminal:
+const button = scope.querySelector("button");
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Contributing
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Contributions are welcome! Please feel free to submit a Pull Request.

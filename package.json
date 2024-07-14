@@ -5,6 +5,10 @@
   "exports": {
     ".": "./index.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tysonjf/astro-scope.git"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
