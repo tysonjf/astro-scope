@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  "data-scope": string;
+}
+const { style, class: className, ...rest } = Astro.props;
+
+const combinedStyle = {
+  display: "contents",
+  ...(typeof style === "string" ? {} : style),
+  ...(typeof style === "string"
+    ? Object.fromEntries(
+        style
+          .split(";")
+          .filter(Boolean)
+          .map((s) => s.split(":")),
+      )
+    : {}),
+};
+---
+
+<div style={combinedStyle} class={className} {...rest}>
+  <slot />
+</div>
